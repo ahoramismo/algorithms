@@ -37,6 +37,30 @@
 
 ## 솔루션
 
+### 코드
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var longestNiceSubstring = function (s) {
+    const set = new Set(s);
+
+    for (let i = 0; i < s.length; i++) {
+        const c = s[i];
+
+        if (set.has(c.toUpperCase()) && set.has(c.toLowerCase())) continue;
+
+        const left = longestNiceSubstring(s.substring(0, i));
+        const right = longestNiceSubstring(s.substring(i + 1));
+
+        return left.length >= right.length ? left : right;
+    }
+
+    return s;
+};
+```
+
 ### 접근 방법
 
 **Divide and Conquer (분할 정복)** 접근법을 사용합니다.
@@ -69,27 +93,3 @@
 
 - 재귀 호출 스택: 최악의 경우 `O(n)` 깊이
 - 각 호출마다 `Set`과 `substring` 생성에 `O(n)` 공간이 필요하지만, 재귀 스택의 깊이가 `O(n)`이므로 전체 공간 복잡도는 `O(n)`입니다.
-
-### 코드
-```javascript
-/**
- * @param {string} s
- * @return {string}
- */
-var longestNiceSubstring = function (s) {
-    const set = new Set(s);
-
-    for (let i = 0; i < s.length; i++) {
-        const c = s[i];
-
-        if (set.has(c.toUpperCase()) && set.has(c.toLowerCase())) continue;
-
-        const left = longestNiceSubstring(s.substring(0, i));
-        const right = longestNiceSubstring(s.substring(i + 1));
-
-        return left.length >= right.length ? left : right;
-    }
-
-    return s;
-};
-```
